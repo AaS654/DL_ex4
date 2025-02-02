@@ -29,7 +29,8 @@ class Trainer:
             
     def save_checkpoint(self, epoch):
         t.save({'state_dict': self._model.state_dict()}, 'checkpoints/checkpoint_{:03d}.ckp'.format(epoch))
-    
+        self.save_onnx('checkpoints/model.onnx')
+
     def restore_checkpoint(self, epoch_n):
         ckp = t.load('checkpoints/checkpoint_{:03d}.ckp'.format(epoch_n), 'cuda' if self._cuda else None)
         self._model.load_state_dict(ckp['state_dict'])
@@ -49,7 +50,9 @@ class Trainer:
               output_names = ['output'], # the model's output names
               dynamic_axes={'input' : {0 : 'batch_size'},    # variable lenght axes
                             'output' : {0 : 'batch_size'}})
-            
+        if self._cuda:
+            m = self._model.cuda()
+
     def train_step(self, x, y):
     #     # perform following steps:
     #     # -reset the gradients. By default, PyTorch accumulates (sums up) gradients when backward() is called. This behavior is not required here, so you need to ensure that all the gradients are zero before calling the backward.
