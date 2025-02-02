@@ -23,13 +23,17 @@ class ChallengeDataset(Dataset):
             self.transform = tv.Compose([
                 tv.ToPILImage(),
                 tv.ToTensor(),
-                tv.Normalize(mean=train_mean, std=train_std)
+                tv.Normalize(mean=train_mean, std=train_std),
+                tv.RandomHorizontalFlip(p=0.3),
+                tv.RandomVerticalFlip(p=0.3)
             ])
         elif self.mode == 'val':  # Validation transformations
             self.transform = tv.Compose([
                 tv.ToPILImage(),
                 tv.ToTensor(),
-                tv.Normalize(mean=train_mean, std=train_std)
+                tv.Normalize(mean=train_mean, std=train_std),
+                tv.RandomHorizontalFlip(p=0.3),
+                tv.RandomVerticalFlip(p=0.3)
             ])
 
     def __len__(self):
