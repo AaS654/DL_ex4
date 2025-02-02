@@ -29,7 +29,7 @@ class Trainer:
             
     def save_checkpoint(self, epoch):
         t.save({'state_dict': self._model.state_dict()}, 'checkpoints/checkpoint_{:03d}.ckp'.format(epoch))
-        # self.save_onnx('checkpoints/model.onnx')
+        self.save_onnx('checkpoints/model.onnx')
 
     def restore_checkpoint(self, epoch_n):
         ckp = t.load('checkpoints/checkpoint_{:03d}.ckp'.format(epoch_n), 'cuda' if self._cuda else None)
