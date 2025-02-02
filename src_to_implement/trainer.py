@@ -88,7 +88,7 @@ class Trainer:
         # Disable gradients
         with t.no_grad():
             outputs = self._model(x)
-            loss = self._crit(outputs, y)
+            loss = self._crit(outputs, y.float())
 
         return loss.item(), outputs
     
